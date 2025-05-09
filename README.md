@@ -6,4 +6,5 @@ AWS Services used: S3, CloudFront, Route53, Lambda, API Gateway, DynamoDB
 
 
 Architecture:
-![image](https://github.com/user-attachments/assets/8513cb91-bd17-4266-b599-37e47627c383)
+![image](https://github.com/user-attachments/assets/bbe9a51b-90da-4b37-8704-9107b3f3cfec)
+
