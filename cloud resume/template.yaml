@@ -1,0 +1,147 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  hello
+
+  Sample SAM Template for hello
+
+# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
+Globals:
+  Function:
+    Timeout: 3
+
+Resources:
+  
+  MyCoolWebsite:
+    Type: AWS::S3::Bucket
+    Properties:
+      AccessControl: PublicRead
+      WebsiteConfiguration:
+        IndexDocument: index.html
+      BucketName: my-website-unique-14175017
+
+  DynamoDBTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: cloud-resume-challenge
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: "ID"
+          AttributeType: "S"
+      KeySchema:
+        - AttributeName: "ID"
+          KeyType: "HASH"
+
+  MyDistribution:
+    Type: "AWS::CloudFront::Distribution"
+    Properties:
+      DistributionConfig:
+        DefaultCacheBehavior:
+          ViewerProtocolPolicy: allow-all
+          TargetOriginId: my-website-unique-14175017.s3-website-us-east-1.amazonaws.com
+          DefaultTTL: 0
+          MinTTL: 0
+          MaxTTL: 0
+          ForwardedValues:
+            QueryString: false
+        Origins:
+          - DomainName: my-website-unique-14175017.s3-website-us-east-1.amazonaws.com
+            Id: my-website-unique-14175017.s3-website-us-east-1.amazonaws.com
+            CustomOriginConfig:
+              OriginProtocolPolicy: http-only
+        Enabled: "true"
+        DefaultRootObject: index.html
+
+#   MyRoute53Record:
+#    Type: "AWS::Route53::RecordSetGroup"
+#    Properties:
+#      HostedZoneId: Z06245993R6DDL18APSF6 # TODO: Don't hardcode me
+#      RecordSets:
+#        - Name: mahit-resume.site # TODO: Don't hardcode me
+#          Type: A
+#          AliasTarget:
+#            HostedZoneId: Z2FDTNDATAQYW2
+#            DNSName: !GetAtt MyDistribution.DomainName
+
+  BucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      PolicyDocument:
+        Id: MyPolicy
+        Version: 2012-10-17 
+        Statement:
+          - Sid: PublicReadForGetBucketObjects
+            Action: s3:GetObject    
+            Effect: Allow
+            Resource: !Join 
+              - ""
+              - - "arn:aws:s3:::"
+                - !Ref MyCoolWebsite
+                - /*
+            Principal: "*"
+      Bucket: !Ref MyCoolWebsite
+        
+ 
+  GetFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: get-function/
+      Handler: app.get_handler
+      Runtime: python3.13
+      Architectures:
+        - x86_64
+      Events:
+        HelloWorld:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /get
+            Method: GET
+  
+  PutFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: cloud-resume-challenge
+      CodeUri: put-function/
+      Handler: app.put_handler
+      Runtime: python3.13
+      Architectures:
+        - x86_64
+      Events:
+        HelloWorld:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /put
+            Method: GET
+
+Outputs:
+
+  GetFunctionApi:
+    Description: "API Gateway endpoint URL for Prod stage for Get function"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/get/"
+
+  PutFunctionApi:
+    Description: "API Gateway endpoint URL for Prod stage for Put function"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/put/"
+
+  GetFunctionArn:
+    Description: "ARN of the Get Lambda Function"
+    Value: !GetAtt GetFunction.Arn
+
+  PutFunctionArn:
+    Description: "ARN of the Put Lambda Function"
+    Value: !GetAtt PutFunction.Arn
+
+  GetFunctionRole:
+    Description: "IAM Role created for Get Lambda Function"
+    Value: !GetAtt GetFunctionRole.Arn
+
+  PutFunctionRole:
+    Description: "IAM Role created for Put Lambda Function"
+    Value: !GetAtt PutFunctionRole.Arn
+
+
+
+
+

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script>
+        fetch('https://oagkxrhp7h.execute-api.us-east-1.amazonaws.com/Prod/get')
+        .then(response => response.json())
+        .then((data) => {
+            document.getElementById('replaceMe').innerText = data.count
+        })
+    </script>
+  <meta charset="UTF-8">
+  <title>Mahit Singh Resume</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <h1>Mahit Singh</h1>
+  <div class="contact">
+    <p>mahitsingh02@gmail.com | +91 7982720158</p>
+  </div>
+
+  <hr>
+
+  <h2>Skills and Interests</h2>
+  <p><strong>AWS Services:</strong> EC2, VPC, S3, IAM, Route 53 and others</p>
+  <p><strong>Languages:</strong> Java, C++, Javascript, Python</p>
+  <p><strong>Database:</strong> MySQL, DynamoDB</p>
+  <p><strong>Tools:</strong> GitHub, VSCode, MySQL Workbench</p>
+  <p><strong>Areas of Interest:</strong> Cloud computing, Cybersecurity</p>
+  <p><strong>Relevant Coursework:</strong> Computer Networks, DBMS, Data Structures, Operating System</p>
+
+  <h2>Projects</h2>
+  <p><strong>Cloud Resume (Ongoing)</strong></p>
+  <ul>
+    <li>Built and deployed a personal resume website hosted on AWS, leveraging services like S3, Lambda, API Gateway, and CloudFormation to create a serverless architecture.</li>
+    <li>Integrated AWS Cognito for user authentication and deployed the site to automate continuous integration and deployment.</li>
+    <li>Added cloud database functionality with DynamoDB to track user visits.</li>
+    <li>Demonstrated proficiency in cloud computing, serverless architecture, and modern development practices.</li>
+  </ul>
+
+  <p><strong>Fraud Detector</strong> | <a href="#">Code</a></p>
+  <ul>
+    <li>Built and trained a Machine Learning model in Google Colab to detect fraudulent transactions in a dataset of credit card transactions.</li>
+    <li>Used logistic regression model from sklearn library to achieve a high accuracy score.</li>
+    <li>Evaluated using other metrics like Precision score and Recall score.</li>
+  </ul>
+
+  <h2>Certifications</h2>
+  <ul>
+    <li><strong>AWS Certified Solutions Architect Associate - AWS, 2025</strong></li>
+    <li><strong>AWS Certified Cloud Practitioner - AWS, 2025</strong></li>
+    <li>Cloud Computing - NPTEL, 2024</li>
+    <li>Python for Data Science - NPTEL, 2024</li>
+  </ul>
+
+  <h2>Education</h2>
+  <p><strong>College</strong> – Amity University | CGPA: 8.91 <span class="date">2022-26</span></p>
+  <p><strong>12th</strong> – Holy Cross Senior Secondary School | 91.6% <span class="date">2022</span></p>
+  <p><strong>10th</strong> – Adarsh Jain Dharmic Shiksha Sadan | 87.8% <span class="date">2020</span></p>
+
+  <h2>Other Achievements</h2>
+  <ul>
+    <li>15+ Badges from AWS Educate and AWS Academy on Credly.</li>
+    <li>200+ Data Structures and Algorithms questions solved across LeetCode, Pepcoding and GeeksForGeeks.</li>
+  </ul>
+
+  <h2>Links</h2>
+  <ul>
+    <li><a href="http://www.linkedin.com/in/mahit-singh-370639314">LinkedIn</a></li>
+    <li><a href="https://github.com/Mahit15">GitHub</a></li>
+    <li><a href="https://www.credly.com/users/mahit-singh">Credly</a></li>
+  </ul>
+
+</body>
+    <p>
+        Visitors: <span id="replaceMe"></span>
+    </p>
+</html>
+
+
+  
